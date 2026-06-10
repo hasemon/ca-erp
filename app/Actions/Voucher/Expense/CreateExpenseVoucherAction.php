@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Actions\Voucher\Expense;
+
+use App\Actions\Voucher\StoreVoucherAction;
+use App\Enums\CA\VoucherStatusType;
+use App\Enums\CA\VoucherType;
+use App\Models\Voucher;
+
+class CreateExpenseVoucherAction
+{
+    public function __construct(
+        private readonly StoreVoucherAction $storeVoucher,
+    ) {}
+
+    public function __invoke(array $data): Voucher
+    {
+        return ($this->storeVoucher)(
+            voucherNo: $data['voucher_no'],
+            dateTime: $data['date_time'],
+            type: VoucherType::EXPENSE,
+            totalAmount: $data['amount'],
+            status: $this->status($data),
+            description: $data['description'] ?? null,
+            items: [
+                $this->storeVoucher->debit(
+                    account: $data['expense_account_id'],
+                    amount: $data['amount'],
+                    businessPartnerId: $data['paid_to_id'] ?? null,
+                    remarks: $data['reference'] ?? null,
+                ),
+                $this->storeVoucher->credit(
+                    account: $data['source_account_id'],
+                    amount: $data['amount'],
+                    remarks: $data['reference'] ?? null,
+                ),
+            ],
+        );
+    }
+
+    private function status(array $data): VoucherStatusType
+    {
+        return VoucherStatusType::from($data['status'] ?? VoucherStatusType::APPROVED->value);
+    }
+}
