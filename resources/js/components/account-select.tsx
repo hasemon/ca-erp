@@ -15,7 +15,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+import { cn, toArray } from '@/lib/utils';
 import {
     Check,
     ChevronDown,
@@ -77,17 +77,19 @@ export function AccountSelect({
     const [search, setSearch] = useState('');
 
     // Build the tree structure globally first, then group by type
+    const accountList = useMemo(() => toArray(accounts), [accounts]);
+
     const groupedData = useMemo(() => {
         const idMap: Record<string, TreeItem> = {};
         const roots: TreeItem[] = [];
 
         // 1. Initialize the map
-        accounts.forEach((acc) => {
+        accountList.forEach((acc) => {
             idMap[acc.id.toString()] = { ...acc, children: [], depth: 0 };
         });
 
         // 2. Build relationships globally
-        accounts.forEach((acc) => {
+        accountList.forEach((acc) => {
             const item = idMap[acc.id.toString()];
             const parentId = acc.parent_id?.toString();
             if (parentId && idMap[parentId]) {
@@ -115,7 +117,7 @@ export function AccountSelect({
         });
 
         return result;
-    }, [accounts]);
+    }, [accountList]);
 
     // Calculate the total expanded set
     const expanded = useMemo(() => {
@@ -131,9 +133,9 @@ export function AccountSelect({
                 v !== null &&
                 v !== undefined &&
                 v !== '' &&
-                accounts.length > 0
+                accountList.length > 0
             ) {
-                const selected = accounts.find(
+                const selected = accountList.find(
                     (a) => a.id.toString() === v.toString(),
                 );
                 if (selected) {
@@ -141,7 +143,7 @@ export function AccountSelect({
                     while (current.parent_id) {
                         const parentId = current.parent_id.toString();
                         next.add(parentId);
-                        const parent = accounts.find(
+                        const parent = accountList.find(
                             (a) => a.id.toString() === parentId,
                         );
                         if (!parent) break;
@@ -151,7 +153,7 @@ export function AccountSelect({
             }
         });
         return next;
-    }, [manualExpanded, value, accounts, multiple]);
+    }, [manualExpanded, value, accountList, multiple]);
 
     const flattenedList = useMemo(() => {
         const list: (TreeItem & { isVisible: boolean })[] = [];
@@ -173,17 +175,17 @@ export function AccountSelect({
 
     const selectedAccounts = useMemo(() => {
         if (multiple) {
-            return accounts.filter((acc) =>
+            return accountList.filter((acc) =>
                 (value as (string | number)[])
                     .map((v) => v.toString())
                     .includes(acc.id.toString()),
             );
         }
-        const selected = accounts.find(
+        const selected = accountList.find(
             (acc) => acc.id.toString() === value?.toString(),
         );
         return selected ? [selected] : [];
-    }, [accounts, value, multiple]);
+    }, [accountList, value, multiple]);
 
     const toggleAccount = (id: number) => {
         if (multiple) {

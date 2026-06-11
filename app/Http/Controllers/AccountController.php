@@ -28,7 +28,7 @@ class AccountController extends Controller
 
         $allAccounts = Account::query()->active()->get();
 
-        return Inertia::render('tenant/account/index', [
+        return Inertia::render('account/index', [
             'accountTypes' => AccountTypeResource::collection($accountTypes),
             'flatAccounts' => AccountResource::collection($allAccounts),
         ]);

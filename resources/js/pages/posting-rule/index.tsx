@@ -27,7 +27,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import AppLayout from '@/layouts/app-layout';
-import { cn } from '@/lib/utils';
+import { cn, toArray } from '@/lib/utils';
 import { update } from '@/routes/posting-rules';
 import type { BreadcrumbItem } from '@/types';
 import { AccountType } from '@/types/account-type';
@@ -59,84 +59,83 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Posting Rules', href: '/posting-rules' },
 ];
 
+const docTypes = [
+    { id: 'App\\Models\\Sale', label: 'Sale', icon: ScrollText },
+    {
+        id: 'App\\Models\\Purchase',
+        label: 'Purchase',
+        icon: Receipt,
+    },
+    {
+        id: 'App\\Models\\ReceiptVoucher',
+        label: 'Receipt Voucher',
+        icon: CreditCard,
+    },
+    {
+        id: 'App\\Models\\PaymentVoucher',
+        label: 'Payment Voucher',
+        icon: Wallet,
+    },
+    {
+        id: 'App\\Models\\JournalVoucher',
+        label: 'Journal Voucher',
+        icon: ArrowLeftRight,
+    },
+    {
+        id: 'App\\Models\\ContraVoucher',
+        label: 'Contra Voucher',
+        icon: Banknote,
+    },
+    {
+        id: 'App\\Models\\ExpenseVoucher',
+        label: 'Expense Voucher',
+        icon: Landmark,
+    },
+    {
+        id: 'App\\Models\\AdvanceVoucher',
+        label: 'Advance Voucher',
+        icon: HandCoins,
+    },
+    {
+        id: 'App\\Models\\RefundVoucher',
+        label: 'Refund Voucher',
+        icon: RefreshCcw,
+    },
+    { id: 'App\\Models\\SaleReturn', label: 'Sale Return', icon: Undo2 },
+];
+
+function rulesForType(
+    rules: Record<string, PostingRuleType[]>,
+    type: string,
+): PostingRuleType[] {
+    const group = rules[type];
+
+    if (!group) {
+        return [];
+    }
+
+    return Array.isArray(group) ? group : Object.values(group);
+}
+
 export default function Index({
     rules,
     accounts,
 }: {
     rules: Record<string, PostingRuleType[]>;
-    accounts: AccountType[];
+    accounts: AccountType[] | { data: AccountType[] };
 }) {
     const [editingTab, setEditingTab] = useState<string | null>(null);
+    const accountList = toArray(accounts);
 
     const { data, setData, put, processing, reset } = useForm({
         rules: [] as (Partial<PostingRuleType> & { id: number })[],
     });
 
-    const docTypes = [
-        { id: 'App\\Models\\Sale', label: 'Sale', icon: ScrollText },
-        {
-            id: 'App\\Models\\Purchase',
-            label: 'Purchase',
-            icon: Receipt,
-        },
-        {
-            id: 'App\\Models\\ReceiptVoucher',
-            label: 'Receipt Voucher',
-            icon: CreditCard,
-        },
-        {
-            id: 'App\\Models\\PaymentVoucher',
-            label: 'Payment Voucher',
-            icon: Wallet,
-        },
-        {
-            id: 'App\\Models\\JournalVoucher',
-            label: 'Journal Voucher',
-            icon: ArrowLeftRight,
-        },
-        {
-            id: 'App\\Models\\ContraVoucher',
-            label: 'Contra Voucher',
-            icon: Banknote,
-        },
-        {
-            id: 'App\\Models\\ExpenseVoucher',
-            label: 'Expense Voucher',
-            icon: Landmark,
-        },
-        {
-            id: 'App\\Models\\AdvanceVoucher',
-            label: 'Advance Voucher',
-            icon: HandCoins,
-        },
-        {
-            id: 'App\\Models\\RefundVoucher',
-            label: 'Refund Voucher',
-            icon: RefreshCcw,
-        },
-        // {
-        //     id: 'App\\Models\\SalaryVoucher',
-        //     label: 'Salary Voucher',
-        //     icon: GraduationCap,
-        // },
-        { id: 'App\\Models\\SaleReturn', label: 'Sale Return', icon: Undo2 },
-        // {
-        //     id: 'App\\Models\\PurchaseReturn',
-        //     label: 'Purchase Return',
-        //     icon: Repeat2,
-        // },
-        // {
-        //     id: 'App\\Models\\StockAdjustment',
-        //     label: 'Stock Adjustment',
-        //     icon: Settings2,
-        // },
-    ];
-
     const startEditing = (type: string) => {
         setEditingTab(type);
         setData(
             'rules',
-            (rules[type] || []).map((r: PostingRuleType) => ({
+            rulesForType(rules, type).map((r: PostingRuleType) => ({
                 id: r.id,
                 account_id: r.account_id,
                 account_ids: r.account_ids || [], // This is now synced from the pivot table by the controller
@@ -314,8 +313,8 @@ export default function Index({
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {!rules[type.id] ||
-                                            rules[type.id].length === 0 ? (
+                                            {rulesForType(rules, type.id)
+                                                .length === 0 ? (
                                                 <TableRow>
                                                     <TableCell
                                                         colSpan={5}
@@ -342,8 +341,10 @@ export default function Index({
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
-                                                rules[type.id].map(
-                                                    (rule: PostingRuleType) => {
+                                                rulesForType(
+                                                    rules,
+                                                    type.id,
+                                                ).map((rule: PostingRuleType) => {
                                                         const isEditing =
                                                             editingTab ===
                                                             type.id;
@@ -407,7 +408,7 @@ export default function Index({
                                                                             ) : isVoucher ? (
                                                                                 <AccountSelect
                                                                                     accounts={
-                                                                                        accounts as AccountType[]
+                                                                                        accountList
                                                                                     }
                                                                                     multiple={
                                                                                         true
@@ -438,7 +439,7 @@ export default function Index({
                                                                             ) : (
                                                                                 <AccountSelect
                                                                                     accounts={
-                                                                                        accounts as AccountType[]
+                                                                                        accountList
                                                                                     }
                                                                                     multiple={
                                                                                         false
@@ -487,7 +488,7 @@ export default function Index({
                                                                                                 id: number,
                                                                                             ) => {
                                                                                                 const acc =
-                                                                                                    accounts.find(
+                                                                                                    accountList.find(
                                                                                                         (
                                                                                                             a,
                                                                                                         ) =>

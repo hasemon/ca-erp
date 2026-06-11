@@ -35,7 +35,7 @@ class PostingRuleController extends Controller
             ->with('accountType')
             ->get();
 
-        return Inertia::render('tenant/posting-rule/index', [
+        return Inertia::render('posting-rule/index', [
             'rules' => $rules->groupBy('document_type'),
             'accounts' => AccountResource::collection($accounts),
         ]);

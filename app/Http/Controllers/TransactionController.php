@@ -66,7 +66,7 @@ class TransactionController extends Controller
             $query->paginate(15)->withQueryString()
         );
 
-        return Inertia::render('tenant/transaction/index', [
+        return Inertia::render('transaction/index', [
             'transactions' => $transactions,
             'filters' => $request->only(['search', 'type', 'date_start', 'date_end']),
             'summary' => [

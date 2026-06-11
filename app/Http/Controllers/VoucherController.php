@@ -81,7 +81,7 @@ class VoucherController extends Controller
 
         $voucherStatuses = VoucherStatusType::options();
 
-        return Inertia::render('tenant/voucher/expense', [
+        return Inertia::render('voucher/expense', [
             'debitAccounts' => AccountResource::collection($debitAccounts),
             'creditAccounts' => AccountResource::collection($creditAccounts),
             'contacts' => $contacts,
@@ -156,7 +156,7 @@ class VoucherController extends Controller
 
         $voucherStatuses = VoucherStatusType::options();
 
-        return Inertia::render('tenant/voucher/contra', [
+        return Inertia::render('voucher/contra', [
             'accounts' => AccountResource::collection($allAccounts),
             'allowedAccounts' => AccountResource::collection($allowedAccounts->isNotEmpty() ? $allowedAccounts : $allAccounts),
             'vouchers' => Inertia::scroll(fn () => VoucherResource::collection($vouchers)),
@@ -237,7 +237,7 @@ class VoucherController extends Controller
 
         $voucherStatuses = VoucherStatusType::options();
 
-        return Inertia::render('tenant/voucher/receipt', [
+        return Inertia::render('voucher/receipt', [
             'debitAccounts' => AccountResource::collection($debitAccounts),
             'creditAccounts' => AccountResource::collection($creditAccounts),
             'contacts' => $contacts,
@@ -314,7 +314,7 @@ class VoucherController extends Controller
 
         $voucherStatuses = VoucherStatusType::options();
 
-        return Inertia::render('tenant/voucher/advance', [
+        return Inertia::render('voucher/advance', [
             'givenAdvanceAccounts' => AccountResource::collection($this->advanceRuleAccounts($rules, 'given', 'debit')),
             'givenCashAccounts' => AccountResource::collection($this->advanceRuleAccounts($rules, 'given', 'credit')),
             'receivedCashAccounts' => AccountResource::collection($this->advanceRuleAccounts($rules, 'received', 'debit')),
@@ -395,7 +395,7 @@ class VoucherController extends Controller
 
         $voucherStatuses = VoucherStatusType::options();
 
-        return Inertia::render('tenant/voucher/refund', [
+        return Inertia::render('voucher/refund', [
             'debitAccounts' => AccountResource::collection($debitAccounts),
             'creditAccounts' => AccountResource::collection($creditAccounts),
             'contacts' => $contacts,
@@ -469,9 +469,9 @@ class VoucherController extends Controller
 
         $voucherStatuses = VoucherStatusType::options();
 
-        return Inertia::render('tenant/voucher/payment', [
-            'debitAccounts' => $debitAccounts,
-            'creditAccounts' => $creditAccounts,
+        return Inertia::render('voucher/payment', [
+            'debitAccounts' => AccountResource::collection($debitAccounts),
+            'creditAccounts' => AccountResource::collection($creditAccounts),
             'contacts' => $contacts,
             'vouchers' => Inertia::scroll(fn () => VoucherResource::collection($vouchers)),
             'voucherStatuses' => $voucherStatuses,
@@ -545,7 +545,7 @@ class VoucherController extends Controller
 
         $voucherStatuses = VoucherStatusType::options();
 
-        return Inertia::render('tenant/voucher/journal', [
+        return Inertia::render('voucher/journal', [
             'accounts' => AccountResource::collection($allAccounts),
             'debitAccounts' => AccountResource::collection($debitAccounts->isNotEmpty() ? $debitAccounts : $allAccounts),
             'creditAccounts' => AccountResource::collection($creditAccounts->isNotEmpty() ? $creditAccounts : $allAccounts),

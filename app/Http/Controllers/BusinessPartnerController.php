@@ -35,7 +35,7 @@ class BusinessPartnerController extends Controller
 
         $partners = BusinessPartnerResource::collection($query->latest()->paginate(15));
 
-        return Inertia::render('tenant/business-partner/index', [
+        return Inertia::render('business-partner/index', [
             'partners' => $partners,
             'filters' => $request->only('search'),
         ]);
@@ -53,7 +53,7 @@ class BusinessPartnerController extends Controller
             $items = $enum ? $enum->allItems() : [];
         }
 
-        return Inertia::render('tenant/business-partner/create', [
+        return Inertia::render('business-partner/create', [
             'accounts' => $accounts,
             'partnerableTypes' => $partnerableTypes,
             'items' => $items,
@@ -89,7 +89,7 @@ class BusinessPartnerController extends Controller
             $items = $enum ? $enum->allItems() : [];
         }
 
-        return Inertia::render('tenant/business-partner/edit', [
+        return Inertia::render('business-partner/edit', [
             'partner' => BusinessPartnerResource::make($businessPartner),
             'accounts' => $accounts,
             'partnerableTypes' => $partnerableTypes,

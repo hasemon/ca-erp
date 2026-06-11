@@ -23,7 +23,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function version(Request $request): ?string
     {
-        return parent::version($request);
+        $version = parent::version($request);
+
+        // Bust stale client prefetch cache after single-tenant page path migration.
+        return $version ? "{$version}-single-tenant" : 'single-tenant';
     }
 
     /**

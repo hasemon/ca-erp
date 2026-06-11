@@ -8,6 +8,26 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
+/** Unwrap Laravel API resource collections (`{ data: T[] }`) for frontend use. */
+export function toArray<T>(
+    value: T[] | { data: T[] } | null | undefined,
+): T[] {
+    if (Array.isArray(value)) {
+        return value;
+    }
+
+    if (
+        value &&
+        typeof value === 'object' &&
+        'data' in value &&
+        Array.isArray(value.data)
+    ) {
+        return value.data;
+    }
+
+    return [];
+}
+
 export function toUrl(url: NonNullable<InertiaLinkProps['href']>): string {
     return typeof url === 'string' ? url : url.url;
 }
