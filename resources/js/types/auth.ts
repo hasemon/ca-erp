@@ -14,6 +14,16 @@ export type User = {
 
 export type Auth = {
     user: User;
+    permissions?: string[];
+    roles?: string[];
+    has_full_access?: boolean;
+};
+
+export type SharedData = {
+    name: string;
+    auth: Auth;
+    sidebarOpen: boolean;
+    [key: string]: unknown;
 };
 
 /* @chisel-passkeys */

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Tenant;
+namespace App\Http\Controllers;
 
 use App\Enums\CA\TransactionType;
 use App\Http\Controllers\Controller;

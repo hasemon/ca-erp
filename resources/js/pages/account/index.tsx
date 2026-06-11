@@ -1,4 +1,4 @@
-import AccountController from '@/actions/App/Http/Controllers/Tenant/AccountController';
+import AccountController from '@/actions/App/Http/Controllers/AccountController';
 import Heading from '@/components/heading';
 import AccountFormModal from '@/components/pages/account/account-form-modal';
 import {

@@ -3,14 +3,11 @@
 namespace App\Models;
 
 use App\Enums\CA\TransactionType;
-use App\Traits\DynamicLogActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Transaction extends Model
 {
-    use DynamicLogActivity, LogsActivity;
 
     protected $fillable = [
         'transaction_group_id',

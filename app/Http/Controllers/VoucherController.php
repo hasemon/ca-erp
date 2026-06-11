@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Tenant;
+namespace App\Http\Controllers;
 
 use App\Actions\Voucher\Advance\CreateAdvanceVoucherAction;
 use App\Actions\Voucher\Advance\UpdateAdvanceVoucherAction;

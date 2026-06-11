@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BusinessPartnerController;
+use App\Http\Controllers\PostingRuleController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');

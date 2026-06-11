@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Tenant;
+namespace App\Http\Controllers;
 
 use App\Actions\BusinessPartner\CreateBusinessPartnerAction;
 use App\Actions\BusinessPartner\UpdateBusinessPartnerAction;

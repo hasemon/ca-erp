@@ -1,4 +1,4 @@
-import VoucherController from '@/actions/App/Http/Controllers/Tenant/VoucherController';
+import VoucherController from '@/actions/App/Http/Controllers/VoucherController';
 import { ReceiptVoucherPDF } from '@/components/pages/voucher/receipt/receipt-voucher-pdf';
 import {
     AlertDialog,

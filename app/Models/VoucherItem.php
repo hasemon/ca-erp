@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use App\Enums\CA\VoucherItemType;
-use App\Traits\DynamicLogActivity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class VoucherItem extends Model
 {
-    use DynamicLogActivity, LogsActivity, SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'voucher_id',

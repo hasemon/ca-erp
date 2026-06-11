@@ -5,19 +5,15 @@ namespace App\Models;
 use App\Enums\CA\AccountActivityType;
 use App\Enums\CA\AccountNatureType;
 use App\Enums\CA\AccountSubType;
-use App\Traits\DynamicLogActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Account extends Model
 {
-    use DynamicLogActivity, LogsActivity;
-
     protected $fillable = [
         'account_type_id',
         'parent_id',

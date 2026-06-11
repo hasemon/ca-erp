@@ -1,7 +1,7 @@
 import {
     store,
     update,
-} from '@/actions/App/Http/Controllers/Tenant/AccountController';
+} from '@/actions/App/Http/Controllers/AccountController';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
