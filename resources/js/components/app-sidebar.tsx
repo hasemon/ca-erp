@@ -1,5 +1,24 @@
+import AccountController from '@/actions/App/Http/Controllers/AccountController';
+import BusinessPartnerController from '@/actions/App/Http/Controllers/BusinessPartnerController';
+import PostingRuleController from '@/actions/App/Http/Controllers/PostingRuleController';
+import TransactionController from '@/actions/App/Http/Controllers/TransactionController';
+import VoucherController from '@/actions/App/Http/Controllers/VoucherController';
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import {
+    IconBuildingBank,
+    IconUserFilled,
+    IconWallet,
+} from '@tabler/icons-react';
+import {
+    BookOpen,
+    Calculator,
+    FolderGit2,
+    HandCoins,
+    History,
+    LayoutGrid,
+    RefreshCcw,
+    Settings,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
