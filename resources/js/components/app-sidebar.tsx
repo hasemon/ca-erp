@@ -22,6 +22,81 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Accounting',
+        icon: Calculator,
+        permission: 'account.access',
+        items: [
+            {
+                title: 'Chart of Accounts',
+                href: AccountController.index().url,
+                icon: IconBuildingBank,
+                permission: 'account.access',
+            },
+            {
+                title: 'Business Partners',
+                href: BusinessPartnerController.index().url,
+                icon: IconUserFilled,
+                permission: 'business-partner.access',
+            },
+            {
+                title: 'Transactions',
+                href: TransactionController.index().url,
+                icon: History,
+                permission: 'transaction.access',
+            },
+            {
+                title: 'Posting Rules',
+                href: PostingRuleController.index().url,
+                icon: Settings,
+                permission: 'posting-rule.access',
+            },
+            {
+                title: 'Vouchers',
+                icon: IconWallet,
+                permission: 'voucher.create',
+                items: [
+                    {
+                        title: 'Receipt',
+                        href: VoucherController.createReceipt().url,
+                        permission: 'voucher.create',
+                    },
+                    {
+                        title: 'Payment',
+                        href: VoucherController.createPayment().url,
+                        permission: 'voucher.create',
+                    },
+                    {
+                        title: 'Journal',
+                        href: VoucherController.createJournal().url,
+                        permission: 'voucher.create',
+                    },
+                    {
+                        title: 'Contra',
+                        href: VoucherController.createContra().url,
+                        permission: 'voucher.create',
+                    },
+                    {
+                        title: 'Expense',
+                        href: VoucherController.createExpense().url,
+                        permission: 'voucher.create',
+                    },
+                    {
+                        title: 'Advance',
+                        href: VoucherController.createAdvance().url,
+                        icon: HandCoins,
+                        permission: 'voucher.create',
+                    },
+                    {
+                        title: 'Refund',
+                        href: VoucherController.createRefund().url,
+                        icon: RefreshCcw,
+                        permission: 'voucher.create',
+                    },
+                ],
+            },
+        ],
+    },
 ];
 
 const footerNavItems: NavItem[] = [
